@@ -1,7 +1,12 @@
 import React, { useState } from 'react'
-import { FlatList, View } from 'react-native'
-import { Button, ListItem, Text } from 'react-native-elements'
-import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context'
+import {
+  FlatList,
+  View,
+  StyleSheet,
+  SafeAreaView,
+  TouchableHighlight,
+} from 'react-native'
+import { Avatar, Button, ListItem, Text } from 'react-native-elements'
 import { getRealm } from './services/realm'
 
 async function getUsers() {
@@ -97,26 +102,52 @@ export default function App() {
 
   function renderUsers({ item }) {
     return (
-      <ListItem>
-        <ListItem.Title>{item.name}</ListItem.Title>
-      </ListItem>
+      <TouchableHighlight onPress={() => {}}>
+        <ListItem bottomDivider>
+          <Avatar
+            icon={{
+              name: 'user',
+              color: 'gray',
+              type: 'font-awesome',
+              size: 40,
+            }}
+            rounded
+          />
+          <ListItem.Content>
+            <ListItem.Title>{item.name}</ListItem.Title>
+            <ListItem.Subtitle>{item.email}</ListItem.Subtitle>
+          </ListItem.Content>
+        </ListItem>
+      </TouchableHighlight>
     )
   }
 
   return (
-    <SafeAreaProvider>
-      <SafeAreaView edges={['top']}>
-        <Button title="Salvar dados no banco" onPress={() => saveData()} />
+    <SafeAreaView style={styles.container}>
+      <View style={styles.buttonContainer}>
+        <Button title="Salvar dados" onPress={() => saveData()} />
         <Button title="Carregar usuários" onPress={() => loadUsers()} />
-        <View>
-          {users.length ? <Text h3>Lista de usuários</Text> : null}
-          <FlatList
-            data={users}
-            keyExtractor={(item) => String(item.id)}
-            renderItem={renderUsers}
-          />
-        </View>
-      </SafeAreaView>
-    </SafeAreaProvider>
+      </View>
+      <View>
+        {users.length ? <Text h3>Lista de usuários</Text> : null}
+        <FlatList
+          data={users}
+          keyExtractor={(item) => String(item.id)}
+          renderItem={renderUsers}
+        />
+      </View>
+    </SafeAreaView>
   )
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    margin: 10,
+  },
+  buttonContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginBottom: 20,
+  },
+})
