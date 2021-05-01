@@ -1,8 +1,8 @@
 import Realm from 'realm'
-import { PostsSchema, UsersSchema, CommentsSchema } from '../schemas/Schemas'
+import { PostSchema, UserSchema, CommentSchema } from '../schemas/Schemas'
 
 export function getRealm() {
-  return Realm.open({
-    schema: [UsersSchema, PostsSchema, CommentsSchema],
+  return new Realm({
+    schema: [UserSchema, PostSchema, CommentSchema],
   })
 }

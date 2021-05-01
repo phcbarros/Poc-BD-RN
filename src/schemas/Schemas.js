@@ -1,18 +1,16 @@
-export const PostsSchema = {
-  name: 'Posts',
+export const PostSchema = {
+  name: 'Post',
   primaryKey: 'id',
   properties: {
     id: { type: 'int', indexed: true },
     title: 'string',
     body: 'string',
-    user: 'Users',
+    user: 'User',
   },
 }
-
-export const UsersSchema = {
-  name: 'Users',
+export const UserSchema = {
+  name: 'User',
   primaryKey: 'id',
-  schemaVersion: 2,
   properties: {
     id: 'int',
     name: 'string',
@@ -21,14 +19,14 @@ export const UsersSchema = {
   },
 }
 
-export const CommentsSchema = {
-  name: 'Comments',
+export const CommentSchema = {
+  name: 'Comment',
   primaryKey: 'id',
   properties: {
     id: 'int',
     name: 'string',
     email: 'string',
     body: 'string',
-    post: 'Posts',
+    post: 'Post',
   },
 }
