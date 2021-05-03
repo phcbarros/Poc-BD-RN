@@ -1,6 +1,6 @@
-import React, { useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import { FlatList, View, StyleSheet, TouchableHighlight } from 'react-native'
-import { Avatar, Button, ListItem, Text } from 'react-native-elements'
+import { Avatar, Button, ListItem, Text, Input } from 'react-native-elements'
 import { getRealm } from '../services/realm'
 
 async function getUsers() {
@@ -45,6 +45,7 @@ async function getComments() {
 
 export default function RealmPage() {
   const [users, setUsers] = useState([])
+  const [query, setQuery] = useState('')
   //const [posts, setPosts] = useState([])
   //const [comments, setComments] = useState([])
 
@@ -133,6 +134,20 @@ export default function RealmPage() {
     setUsers(data)
   }
 
+  const searchUser = useCallback(() => {
+    if (!query) {
+      setUsers([])
+      return
+    }
+    const realm = getRealm()
+    const data = realm.objects('User').filtered(`name CONTAINS "${query}"`)
+    setUsers(data)
+  }, [query])
+
+  useEffect(() => {
+    searchUser()
+  }, [searchUser])
+
   function renderUsers({ item }) {
     return (
       <TouchableHighlight onPress={() => {}}>
@@ -164,6 +179,11 @@ export default function RealmPage() {
       </View>
       <View style={styles.container}>
         {users.length ? <Text h3>Lista de usuários</Text> : null}
+        <Input
+          value={query}
+          onChangeText={setQuery}
+          placeholder="Digite o nome do usuário"
+        />
         <FlatList
           data={users}
           keyExtractor={(item) => String(item.id)}
