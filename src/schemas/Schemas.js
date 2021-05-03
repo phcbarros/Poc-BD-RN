@@ -1,13 +1,3 @@
-export const PostSchema = {
-  name: 'Post',
-  primaryKey: 'id',
-  properties: {
-    id: { type: 'int', indexed: true },
-    title: 'string',
-    body: 'string',
-    user: 'User',
-  },
-}
 export const UserSchema = {
   name: 'User',
   primaryKey: 'id',
@@ -16,6 +6,24 @@ export const UserSchema = {
     name: 'string',
     username: { type: 'string', mapTo: 'userName' },
     email: 'string',
+    posts: 'Post[]',
+  },
+}
+
+export const PostSchema = {
+  name: 'Post',
+  primaryKey: 'id',
+  properties: {
+    id: { type: 'int', indexed: true },
+    title: 'string',
+    body: 'string',
+    user: 'User',
+    comments: 'Comment[]',
+  },
+  assignee: {
+    type: 'linkingObjects',
+    objectType: 'User',
+    property: 'posts',
   },
 }
 
@@ -28,5 +36,10 @@ export const CommentSchema = {
     email: 'string',
     body: 'string',
     post: 'Post',
+  },
+  assignee: {
+    type: 'linkingObjects',
+    objectType: 'Post',
+    property: 'comment',
   },
 }
