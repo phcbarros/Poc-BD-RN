@@ -40,33 +40,30 @@ export function createTables() {
         )`,
       [],
     )
-    ctx.executeSql(
-      'INSERT INTO users (name, username, email) VALUES ("Paulo Barros", "paulo.barros", "paulo.barros@mrv.com.br")',
-      [],
-    )
-    ctx.executeSql(
-      'INSERT INTO users (name, username, email) VALUES ("Fernanda Ferreira", "fernanda.ferreira", "fernanda.ferreira@mrv.com.br")',
-      [],
-    )
   })
 }
 
-export function executeQuery(sql, args, fnError) {
+export function save(sql, args) {
   const connection = openConnection()
-  let data = []
+  connection.transaction((ctx) => {
+    ctx.executeSql(sql, [], null, (err) => {
+      console.log('error', err)
+    })
+  })
+}
+
+export function executeQuery(sql, args, fnSuccess, fnError) {
+  const connection = openConnection()
   connection.transaction((ctx) => {
     ctx.executeSql(
       sql,
       [...args],
       (tx, results) => {
-        console.warn(results.rows)
-        data = results.rows
+        fnSuccess(results.rows)
       },
       (err) => {
         fnError(err)
       },
     )
   })
-
-  return data
 }

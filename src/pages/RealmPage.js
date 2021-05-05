@@ -2,46 +2,9 @@ import React, { useCallback, useEffect, useState } from 'react'
 import { FlatList, View, StyleSheet, TouchableHighlight } from 'react-native'
 import { Avatar, Button, ListItem, Text, Input } from 'react-native-elements'
 import { getRealm } from '../services/realm'
-
-async function getUsers() {
-  try {
-    const response = await fetch('https://jsonplaceholder.typicode.com/users')
-    const data = await response.json()
-    const newUsers = data.map((user) => {
-      return {
-        id: user.id,
-        name: user.name,
-        username: user.username,
-        email: user.email,
-      }
-    })
-    return newUsers
-  } catch (err) {
-    console.warn(err)
-  }
-}
-
-async function getPosts() {
-  try {
-    const response = await fetch('https://jsonplaceholder.typicode.com/posts')
-    const data = await response.json()
-    return data
-  } catch (err) {
-    console.warn(err)
-  }
-}
-
-async function getComments() {
-  try {
-    const response = await fetch(
-      'https://jsonplaceholder.typicode.com/comments',
-    )
-    const data = await response.json()
-    return data
-  } catch (err) {
-    console.warn(err)
-  }
-}
+import { getUsers } from '../services/users'
+import { getPosts } from '../services/posts'
+import { getComments } from '../services/comments'
 
 export default function RealmPage() {
   const [users, setUsers] = useState([])
@@ -178,12 +141,12 @@ export default function RealmPage() {
         <Button title="Carregar usuários" onPress={() => loadUsers()} />
       </View>
       <View style={styles.container}>
-        {users.length ? <Text h3>Lista de usuários</Text> : null}
         <Input
           value={query}
           onChangeText={setQuery}
           placeholder="Digite o nome do usuário"
         />
+        {users.length ? <Text h3>Lista de usuários</Text> : null}
         <FlatList
           data={users}
           keyExtractor={(item) => String(item.id)}
