@@ -113,8 +113,16 @@ export default function RealmPage() {
         <Text h1>Usando RealmDB</Text>
       </Header>
       <ButtonContainer>
-        <Button title="Salvar dados" onPress={() => saveData()} />
-        <Button title="Carregar usuários" onPress={() => loadUsers()} />
+        <Button
+          type="outline"
+          title="Salvar dados"
+          onPress={() => saveData()}
+        />
+        <Button
+          type="outline"
+          title="Carregar usuários"
+          onPress={() => loadUsers()}
+        />
       </ButtonContainer>
       <Input
         value={query}

@@ -3,6 +3,7 @@ import { TouchableHighlight, FlatList } from 'react-native'
 import { Avatar, ListItem } from 'react-native-elements'
 
 const UserList = ({ users }) => {
+  console.log('render...')
   function renderUsers({ item }) {
     return (
       <TouchableHighlight onPress={() => {}}>
@@ -34,4 +35,4 @@ const UserList = ({ users }) => {
   )
 }
 
-export default UserList
+export default React.memo(UserList)

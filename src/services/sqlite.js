@@ -1,6 +1,5 @@
 import SQLite from 'react-native-sqlite-2'
-
-export function openConnection() {
+function openConnection() {
   return SQLite.openDatabase('test.db', '1.0', '', 1)
 }
 
@@ -66,4 +65,10 @@ export function executeQuery(sql, args, fnSuccess, fnError) {
       },
     )
   })
+}
+
+export default {
+  executeQuery,
+  createTables,
+  save,
 }
