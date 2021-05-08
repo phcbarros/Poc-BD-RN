@@ -1,15 +1,13 @@
 import { NavigationContainer } from '@react-navigation/native'
 import React from 'react'
 import { StyleSheet, SafeAreaView } from 'react-native'
-import MainPage from './MainPage'
-import RealmPage from './pages/RealmPage'
-import SQLitePage from './pages/SQLitePage'
+import MainNavigation from './MainNavigation'
 
 export default function App() {
   return (
     <NavigationContainer>
       <SafeAreaView style={styles.container}>
-        <MainPage />
+        <MainNavigation />
       </SafeAreaView>
     </NavigationContainer>
   )

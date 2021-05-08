@@ -1,16 +1,12 @@
 import React, { useCallback, useEffect, useState } from 'react'
-import { FlatList, View, StyleSheet, TouchableHighlight } from 'react-native'
-import { Avatar, Button, ListItem, Text, Input } from 'react-native-elements'
-import { getRealm } from '../services/realm'
-import { getUsers } from '../services/users'
-import { getPosts } from '../services/posts'
-import { getComments } from '../services/comments'
+import { Button, Text, Input } from 'react-native-elements'
+import { Container, Header, ButtonContainer } from './RealmPage.styles'
+import UserList from '../../components/UserList/UserList'
+import { getRealm, getPosts, getComments, getUsers } from '../../services'
 
 export default function RealmPage() {
   const [users, setUsers] = useState([])
   const [query, setQuery] = useState('')
-  //const [posts, setPosts] = useState([])
-  //const [comments, setComments] = useState([])
 
   async function saveData() {
     try {
@@ -111,60 +107,21 @@ export default function RealmPage() {
     searchUser()
   }, [searchUser])
 
-  function renderUsers({ item }) {
-    return (
-      <TouchableHighlight onPress={() => {}}>
-        <ListItem bottomDivider>
-          <Avatar
-            icon={{
-              name: 'user',
-              color: 'gray',
-              type: 'font-awesome',
-              size: 40,
-            }}
-            rounded
-          />
-          <ListItem.Content>
-            <ListItem.Title>{item.name}</ListItem.Title>
-            <ListItem.Subtitle>{item.email}</ListItem.Subtitle>
-          </ListItem.Content>
-        </ListItem>
-      </TouchableHighlight>
-    )
-  }
-
   return (
-    <View style={styles.container}>
-      <Text h1>Usando RealmDB</Text>
-      <View style={styles.buttonContainer}>
+    <Container>
+      <Header>
+        <Text h1>Usando RealmDB</Text>
+      </Header>
+      <ButtonContainer>
         <Button title="Salvar dados" onPress={() => saveData()} />
         <Button title="Carregar usuários" onPress={() => loadUsers()} />
-      </View>
-      <View style={styles.container}>
-        <Input
-          value={query}
-          onChangeText={setQuery}
-          placeholder="Digite o nome do usuário"
-        />
-        {users.length ? <Text h3>Lista de usuários</Text> : null}
-        <FlatList
-          data={users}
-          keyExtractor={(item) => String(item.id)}
-          renderItem={renderUsers}
-        />
-      </View>
-    </View>
+      </ButtonContainer>
+      <Input
+        value={query}
+        onChangeText={setQuery}
+        placeholder="Digite o nome do usuário"
+      />
+      <UserList users={users} />
+    </Container>
   )
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-  buttonContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    marginTop: 20,
-    marginBottom: 20,
-  },
-})
