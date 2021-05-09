@@ -106,7 +106,7 @@ export default function RealmPage() {
   }, [query])
 
   function handleSelectUser(user) {
-    navigation.navigate('realm-posts', { user })
+    navigation.navigate('realm-posts', { user, provider: 'realm' })
   }
 
   useEffect(() => {

@@ -85,7 +85,7 @@ export default function SQLitePage() {
   }, [searchUser])
 
   function handleSelectUser(user) {
-    navigation.navigate('sqlite-posts', { user })
+    navigation.navigate('sqlite-posts', { user, provider: 'sqlite' })
   }
 
   return (

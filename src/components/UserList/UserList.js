@@ -3,8 +3,6 @@ import { TouchableHighlight, FlatList } from 'react-native'
 import { Avatar, ListItem } from 'react-native-elements'
 
 const UserList = ({ users, onSelectUser }) => {
-  console.log('render...')
-
   const handleSelectUser = useCallback(
     (user) => {
       const userSelected = {

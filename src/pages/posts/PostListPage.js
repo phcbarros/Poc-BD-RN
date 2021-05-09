@@ -1,22 +1,21 @@
-import React, { useEffect, useState } from 'react'
-import { getRealm } from '../../services'
+import React, { useEffect } from 'react'
+import { Alert } from 'react-native'
 
 import PostList from './PostList'
 
 import { Container } from './PostListPage.styles'
+import useQueryPostByUser from './useQueryPostsByUser'
 
 const PostListPage = (props) => {
-  const { user } = props.route.params
-  const [posts, setPosts] = useState([])
+  const { user, provider } = props.route.params
+  const { posts, error } = useQueryPostByUser(user.id, provider)
 
   useEffect(() => {
-    const loadPostsByUser = () => {
-      const realm = getRealm()
-      const data = realm.objects('Post').filtered(`user.id == ${user.id}`)
-      setPosts(data)
+    if (!error) {
+      return
     }
-    loadPostsByUser()
-  }, [user.id])
+    Alert.alert('Aviso', error)
+  }, [error])
 
   return (
     <Container>
