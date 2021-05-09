@@ -1,3 +1,3 @@
-import RealmPage from './RealmPage'
+import RealmPageNavigation from './RealmPageNavigation'
 
-export default RealmPage
+export default RealmPageNavigation

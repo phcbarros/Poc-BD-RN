@@ -1,12 +1,26 @@
-import React from 'react'
+import React, { useCallback } from 'react'
 import { TouchableHighlight, FlatList } from 'react-native'
 import { Avatar, ListItem } from 'react-native-elements'
 
-const UserList = ({ users }) => {
+const UserList = ({ users, onSelectUser }) => {
   console.log('render...')
+
+  const handleSelectUser = useCallback(
+    (user) => {
+      const userSelected = {
+        id: user.id,
+        name: user.name,
+        email: user.email,
+        userName: user.username,
+      }
+      onSelectUser(userSelected)
+    },
+    [onSelectUser],
+  )
+
   function renderUsers({ item }) {
     return (
-      <TouchableHighlight onPress={() => {}}>
+      <TouchableHighlight onPress={() => handleSelectUser(item)}>
         <ListItem bottomDivider>
           <Avatar
             icon={{

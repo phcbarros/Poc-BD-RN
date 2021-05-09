@@ -1,5 +1,6 @@
 import React, { useCallback, useEffect, useState } from 'react'
 import { Button, Text, Input } from 'react-native-elements'
+import { useNavigation } from '@react-navigation/native'
 import { Container, Header, ButtonContainer } from './RealmPage.styles'
 import UserList from '../../components/UserList/UserList'
 import { getRealm, getPosts, getComments, getUsers } from '../../services'
@@ -7,6 +8,7 @@ import { getRealm, getPosts, getComments, getUsers } from '../../services'
 export default function RealmPage() {
   const [users, setUsers] = useState([])
   const [query, setQuery] = useState('')
+  const navigation = useNavigation()
 
   async function saveData() {
     try {
@@ -103,6 +105,10 @@ export default function RealmPage() {
     setUsers(data)
   }, [query])
 
+  function handleSelectUser(user) {
+    navigation.navigate('realm-posts', { user })
+  }
+
   useEffect(() => {
     searchUser()
   }, [searchUser])
@@ -129,7 +135,7 @@ export default function RealmPage() {
         onChangeText={setQuery}
         placeholder="Digite o nome do usuário"
       />
-      <UserList users={users} />
+      <UserList users={users} onSelectUser={handleSelectUser} />
     </Container>
   )
 }
