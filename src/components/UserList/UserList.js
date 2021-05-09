@@ -35,6 +35,13 @@ const UserList = ({ users, onSelectUser }) => {
             <ListItem.Title>{item.name}</ListItem.Title>
             <ListItem.Subtitle>{item.email}</ListItem.Subtitle>
           </ListItem.Content>
+          <ListItem.Chevron
+            iconProps={{
+              name: 'chevron-forward',
+              size: 24,
+              type: 'font-awesome',
+            }}
+          />
         </ListItem>
       </TouchableHighlight>
     )

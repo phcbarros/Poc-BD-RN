@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useCallback } from 'react'
-import { Alert, View } from 'react-native'
-import { Button, Divider, Input, Text } from 'react-native-elements'
+import { Alert } from 'react-native'
+import { Button, Input, Text } from 'react-native-elements'
+import { useNavigation } from '@react-navigation/native'
 import {
   Container,
   Header,
@@ -13,6 +14,7 @@ import { getPosts, getComments, getUsers, sqlite } from '../../services'
 export default function SQLitePage() {
   const [users, setUsers] = useState([])
   const [query, setQuery] = useState('')
+  const navigation = useNavigation()
 
   function createTables() {
     sqlite.createTables()
@@ -82,6 +84,10 @@ export default function SQLitePage() {
     searchUser()
   }, [searchUser])
 
+  function handleSelectUser(user) {
+    navigation.navigate('sqlite-posts', { user })
+  }
+
   return (
     <Container>
       <Header>
@@ -105,7 +111,7 @@ export default function SQLitePage() {
         onChangeText={setQuery}
         placeholder="Digite o nome do usuário"
       />
-      <UserList users={users} />
+      <UserList users={users} onSelectUser={handleSelectUser} />
     </Container>
   )
 }

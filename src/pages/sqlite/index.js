@@ -1,3 +1,3 @@
-import SQLitePage from './SQLitePage'
+import SQLiteNavigation from './SQLiteNavigation'
 
-export default SQLitePage
+export default SQLiteNavigation

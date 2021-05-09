@@ -1,29 +1,29 @@
 import React from 'react'
 import { createStackNavigator } from '@react-navigation/stack'
-import RealmPage from './RealmPage'
+import SQLitePage from './SQLitePage'
 import PostListPage from '../posts'
 
 const Stack = createStackNavigator()
 
-export default function RealmNavigation() {
+export default function SQLiteNavigation() {
   return (
     <Stack.Navigator
-      initialRouteName="realm-home"
+      initialRouteName="sqlite-home"
       screenOptions={{
         headerBackTitleVisible: false,
       }}>
       <Stack.Screen
         name="realm-home"
-        component={RealmPage}
+        component={SQLitePage}
         options={{
-          title: 'Realm - Home',
+          title: 'SQLite - Home',
         }}
       />
       <Stack.Screen
-        name="realm-posts"
+        name="sqlite-posts"
         component={PostListPage}
         options={{
-          title: 'Realm - Posts',
+          title: 'SQLite - Posts',
         }}
       />
     </Stack.Navigator>

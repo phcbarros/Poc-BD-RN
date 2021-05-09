@@ -1,7 +1,7 @@
 import React from 'react'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
-import RealmPageNavigation from './pages/realm'
-import SQLitePage from './pages/sqlite'
+import RealmNavigation from './pages/realm'
+import SQLiteNavigation from './pages/sqlite'
 import { Icon } from 'react-native-elements'
 
 const Tab = createBottomTabNavigator()
@@ -14,14 +14,14 @@ export default function MainNavigation() {
       tabBarOptions={tabBarOptions}>
       <Tab.Screen
         name="realm"
-        component={RealmPageNavigation}
+        component={RealmNavigation}
         options={{
           title: 'RealmDB',
         }}
       />
       <Tab.Screen
         name="sqlite"
-        component={SQLitePage}
+        component={SQLiteNavigation}
         options={{
           title: 'SQLite',
         }}

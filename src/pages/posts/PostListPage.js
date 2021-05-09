@@ -9,8 +9,6 @@ const PostListPage = (props) => {
   const { user } = props.route.params
   const [posts, setPosts] = useState([])
 
-  console.warn('aqio')
-
   useEffect(() => {
     const loadPostsByUser = () => {
       const realm = getRealm()
