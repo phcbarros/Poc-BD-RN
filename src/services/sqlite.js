@@ -1,4 +1,5 @@
 import SQLite from 'react-native-sqlite-2'
+
 function openConnection() {
   return SQLite.openDatabase('test.db', '1.0', '', 1)
 }
@@ -53,7 +54,7 @@ export function save(sql, args) {
 
 export function executeQuery(sql, args, fnSuccess, fnError) {
   const connection = openConnection()
-  connection.transaction((ctx) => {
+  return connection.transaction((ctx) => {
     ctx.executeSql(
       sql,
       [...args],
@@ -67,8 +68,28 @@ export function executeQuery(sql, args, fnSuccess, fnError) {
   })
 }
 
+export function executeQueryFunc(...args) {
+  const [sql, params, fnSuccess, fnError] = args
+  openConnection().transaction((ctx) => {
+    ctx.executeSql(
+      sql,
+      params,
+      (_, results) => fnSuccess(results.rows._array),
+      (err) => fnError(err),
+    )
+  })
+}
+
+function functionToPromise(fn, ...args) {
+  return new Promise((resolve, reject) => fn(...args, resolve, reject))
+}
+
+const executeQueryAsync = (sql, args) =>
+  functionToPromise(executeQueryFunc, sql, args)
+
 export default {
   executeQuery,
   createTables,
   save,
+  executeQueryAsync,
 }

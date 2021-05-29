@@ -11,6 +11,9 @@ import {
 import UserList from '../../components/UserList/UserList'
 import { getPosts, getComments, getUsers, sqlite } from '../../services'
 
+function showAlert(msg) {
+  Alert.alert('Aviso', msg)
+}
 export default function SQLitePage() {
   const [users, setUsers] = useState([])
   const [query, setQuery] = useState('')
@@ -18,7 +21,7 @@ export default function SQLitePage() {
 
   function createTables() {
     sqlite.createTables()
-    Alert.alert('Aviso', 'Tabelas criados com sucesso!')
+    showAlert('Tabelas criados com sucesso!')
   }
 
   async function saveData() {
@@ -41,43 +44,32 @@ export default function SQLitePage() {
       sqlite.save(sql)
     })
 
-    Alert.alert('Aviso', 'Dados salvos com sucesso!')
+    showAlert('Dados salvos com sucesso!')
   }
 
-  function loadUsers() {
-    const sql = 'SELECT * FROM users'
-
-    sqlite.executeQuery(
-      sql,
-      [],
-      (results) => {
-        const data = results._array.map((user) => ({
-          id: user.id,
-          name: user.name,
-          userName: user.username,
-          email: user.email,
-        }))
-        setUsers(data)
-      },
-      (err) => {
-        console.warn(err)
-      },
-    )
+  async function loadUsers() {
+    try {
+      const sql = 'SELECT * FROM users'
+      const result = await sqlite.executeQueryAsync(sql)
+      setUsers(result)
+    } catch (error) {
+      showAlert('Erro ao buscar os usuários')
+    }
   }
 
-  const searchUser = useCallback(() => {
+  const searchUser = useCallback(async () => {
     if (!query) {
       setUsers([])
       return
     }
 
-    const sql = `SELECT * FROM users WHERE name like "%${query}%"`
-    sqlite.executeQuery(
-      sql,
-      [],
-      (results) => setUsers(results._array),
-      (err) => console.warn(err),
-    )
+    try {
+      const sql = `SELECT * FROM users WHERE name like "%${query}%"`
+      const result = await sqlite.executeQueryAsync(sql)
+      setUsers(result)
+    } catch (error) {
+      showAlert('Erro ao buscar os usuários')
+    }
   }, [query])
 
   useEffect(() => {
