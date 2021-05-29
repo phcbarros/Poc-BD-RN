@@ -2,10 +2,10 @@ import React from 'react'
 import { FlatList } from 'react-native'
 import { ListItem } from 'react-native-elements'
 
-const PostList = ({ posts }) => {
+const PostList = ({ posts, onSelectPost }) => {
   function renderPosts({ item: post }) {
     return (
-      <ListItem bottomDivider>
+      <ListItem bottomDivider onPress={() => onSelectPost(post)}>
         <ListItem.Content>
           <ListItem.Title>{post.title}</ListItem.Title>
         </ListItem.Content>

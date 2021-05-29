@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react'
 import { Alert } from 'react-native'
-
+import { useNavigation } from '@react-navigation/native'
 import PostList from './PostList'
-
 import { Container } from './PostListPage.styles'
 import useQueryPostByUser from './useQueryPostsByUser'
 
 const PostListPage = (props) => {
+  const navigation = useNavigation()
   const { user, provider } = props.route.params
   const [posts, setPosts] = useState([])
   const { error, queryPostsByUserId } = useQueryPostByUser(provider)
@@ -18,7 +18,6 @@ const PostListPage = (props) => {
     }
 
     getPostsByUserId()
-   
   }, [queryPostsByUserId, user.id])
 
   useEffect(() => {
@@ -28,9 +27,18 @@ const PostListPage = (props) => {
     Alert.alert('Aviso', error)
   }, [error])
 
+  function onSelectPost(data) {
+    const post = {
+      id: data.id,
+      title: data.title,
+      body: data.body,
+    }
+    navigation.navigate('realm-post', { post, provider })
+  }
+
   return (
     <Container>
-      <PostList posts={posts} />
+      <PostList posts={posts} onSelectPost={onSelectPost} />
     </Container>
   )
 }
