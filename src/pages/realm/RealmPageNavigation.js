@@ -1,7 +1,7 @@
 import React from 'react'
 import { createStackNavigator } from '@react-navigation/stack'
 import RealmPage from './RealmPage'
-import PostListPage from '../posts'
+import PostListPage from 'pages/posts'
 
 const Stack = createStackNavigator()
 

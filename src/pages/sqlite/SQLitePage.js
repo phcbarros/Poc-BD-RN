@@ -8,9 +8,8 @@ import {
   ButtonContainer,
   Subtitle,
 } from './SQLitePage.styles'
-import UserList from '../../components/UserList/UserList'
-import { getPosts, getComments, getUsers, sqlite } from '../../services'
-
+import UserList from 'components/UserList/UserList'
+import { getPosts, getComments, getUsers, sqlite } from 'services'
 function showAlert(msg) {
   Alert.alert('Aviso', msg)
 }

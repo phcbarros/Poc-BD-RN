@@ -1,5 +1,5 @@
 import { useState, useCallback } from 'react'
-import { getRealm, sqlite } from '../../services'
+import { getRealm, sqlite } from 'services'
 
 export default function useQueryPostByUser(provider) {
   const [error, setError] = useState('')

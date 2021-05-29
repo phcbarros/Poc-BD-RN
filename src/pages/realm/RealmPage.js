@@ -2,8 +2,8 @@ import React, { useCallback, useEffect, useState } from 'react'
 import { Button, Text, Input } from 'react-native-elements'
 import { useNavigation } from '@react-navigation/native'
 import { Container, Header, ButtonContainer } from './RealmPage.styles'
-import UserList from '../../components/UserList/UserList'
-import { getRealm, getPosts, getComments, getUsers } from '../../services'
+import UserList from 'components/UserList/UserList'
+import { getRealm, getPosts, getComments, getUsers } from 'services'
 
 export default function RealmPage() {
   const [users, setUsers] = useState([])
