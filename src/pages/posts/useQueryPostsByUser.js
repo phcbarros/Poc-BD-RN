@@ -1,29 +1,35 @@
-import { useState, useEffect } from 'react'
+import { useState, useCallback } from 'react'
 import { getRealm, sqlite } from '../../services'
 
-export default function useQueryPostByUser(id, provider) {
-  const [posts, setPosts] = useState([])
+export default function useQueryPostByUser(provider) {
   const [error, setError] = useState('')
-  useEffect(() => {
-    if (provider === 'realm') {
-      const realm = getRealm()
-      const data = realm.objects('Post').filtered(`user.id == ${id}`)
-      setPosts(data)
-    } else {
+
+  const queryPostsByIdOnSQLite = useCallback(async (id) => {
+    try {
       const sql = 'SELECT * FROM posts WHERE user_id=?'
-      sqlite.executeQuery(
-        sql,
-        [id],
-        (results) => {
-          setPosts(results._array)
-        },
-        () => setError('Erro ao listar os posts'),
-      )
+      return await sqlite.executeQueryAsync(sql, [id])
+    } catch (err) {
+      setError('Erro ao buscar os posts')
+      return []
     }
-  }, [provider, id])
+  }, [])
+
+  const queryPostsByIdOnRealm = useCallback((id) => {
+    const realm = getRealm()
+    return realm.objects('Post').filtered(`user.id == ${id}`)
+  }, [])
+
+  const queryPostsByUserId = useCallback(
+    (id) => {
+      return provider === 'realm'
+        ? queryPostsByIdOnRealm(id)
+        : queryPostsByIdOnSQLite(id)
+    },
+    [provider, queryPostsByIdOnRealm, queryPostsByIdOnSQLite],
+  )
 
   return {
-    posts,
     error,
+    queryPostsByUserId,
   }
 }

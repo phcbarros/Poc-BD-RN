@@ -46,36 +46,26 @@ export function createTables() {
 export function save(sql, args) {
   const connection = openConnection()
   connection.transaction((ctx) => {
-    ctx.executeSql(sql, [], null, (err) => {
+    ctx.executeSql(sql, args, null, (err) => {
       console.log('error', err)
     })
   })
 }
-
-export function executeQuery(sql, args, fnSuccess, fnError) {
-  const connection = openConnection()
-  return connection.transaction((ctx) => {
-    ctx.executeSql(
-      sql,
-      [...args],
-      (tx, results) => {
-        fnSuccess(results.rows)
-      },
-      (err) => {
-        fnError(err)
-      },
-    )
+function saveFunc(...args) {
+  const [sql, params, fnSuccess, fnError] = args
+  openConnection().transaction((ctx) => {
+    ctx.executeSql(sql, params, fnSuccess, fnError)
   })
 }
 
-export function executeQueryFunc(...args) {
+function executeQueryFunc(...args) {
   const [sql, params, fnSuccess, fnError] = args
   openConnection().transaction((ctx) => {
     ctx.executeSql(
       sql,
       params,
       (_, results) => fnSuccess(results.rows._array),
-      (err) => fnError(err),
+      fnError,
     )
   })
 }
@@ -84,12 +74,13 @@ function functionToPromise(fn, ...args) {
   return new Promise((resolve, reject) => fn(...args, resolve, reject))
 }
 
-const executeQueryAsync = (sql, args) =>
-  functionToPromise(executeQueryFunc, sql, args)
+const saveAsync = (sql, params) => functionToPromise(saveFunc, sql, params)
+const executeQueryAsync = (sql, params) =>
+  functionToPromise(executeQueryFunc, sql, params)
 
 export default {
-  executeQuery,
   createTables,
   save,
+  saveAsync,
   executeQueryAsync,
 }
