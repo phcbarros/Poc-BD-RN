@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
 import { Alert } from 'react-native'
 import CommentList from './CommentList'
-import useQueryCommentsByPost from './CommentList/useQueryCommentsByPost'
+import useQueryCommentsByPost from './useQueryCommentsByPost'
 import { Container, StyledText } from './PostPage.styles'
 
 function PostPage(props) {

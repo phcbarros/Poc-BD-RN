@@ -15,8 +15,12 @@ export default function useQueryPostByUser(provider) {
   }, [])
 
   const queryPostsByIdOnRealm = useCallback((id) => {
-    const realm = getRealm()
-    return realm.objects('Post').filtered(`user.id == ${id}`)
+    try {
+      const realm = getRealm()
+      return realm.objects('Post').filtered(`user.id == ${id}`)
+    } catch (err) {
+      setError('Erro ao obter os dados no Realm')
+    }
   }, [])
 
   const queryPostsByUserId = useCallback(
